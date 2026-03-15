@@ -61,4 +61,4 @@ Beim Deinstallieren werden entfernt:
 
 
 ## license
-do what you want ;)
+do what you want ;) really!
