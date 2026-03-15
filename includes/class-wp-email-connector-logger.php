@@ -156,7 +156,7 @@ class WP_Email_Connector_Logger
         global $wpdb;
 
         $query = $wpdb->prepare(
-            "SELECT id, created_at, to_email, subject, status, error_message, mailer
+            "SELECT id, created_at, to_email, subject, message, status, error_message, mailer
              FROM {$this->table_name}
              ORDER BY id DESC
              LIMIT %d OFFSET %d",

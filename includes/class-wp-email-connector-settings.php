@@ -335,6 +335,7 @@ class WP_Email_Connector_Settings
                         <th><?php esc_html_e('Zeit', 'wordpress-email'); ?></th>
                         <th><?php esc_html_e('An', 'wordpress-email'); ?></th>
                         <th><?php esc_html_e('Betreff', 'wordpress-email'); ?></th>
+                        <th><?php esc_html_e('Body', 'wordpress-email'); ?></th>
                         <th><?php esc_html_e('Status', 'wordpress-email'); ?></th>
                         <th><?php esc_html_e('Mailer', 'wordpress-email'); ?></th>
                         <th><?php esc_html_e('Fehler', 'wordpress-email'); ?></th>
@@ -343,15 +344,21 @@ class WP_Email_Connector_Settings
                 <tbody>
                     <?php if (empty($rows)): ?>
                         <tr>
-                            <td colspan="6"><?php esc_html_e('Noch keine ausgehenden Mails protokolliert.', 'wordpress-email'); ?>
+                            <td colspan="7"><?php esc_html_e('Noch keine ausgehenden Mails protokolliert.', 'wordpress-email'); ?>
                             </td>
                         </tr>
                     <?php else: ?>
                         <?php foreach ($rows as $row): ?>
+                            <?php $body_id = 'wp-email-body-' . absint($row['id']); ?>
                             <tr>
                                 <td><?php echo esc_html((string) $row['created_at']); ?></td>
                                 <td><?php echo esc_html((string) $row['to_email']); ?></td>
                                 <td><?php echo esc_html((string) $row['subject']); ?></td>
+                                <td style="min-width: 120px;">
+                                    <button type="button" class="button button-small wp-email-show-body" data-target="<?php echo esc_attr($body_id); ?>">
+                                        <?php esc_html_e('Body anzeigen', 'wordpress-email'); ?>
+                                    </button>
+                                </td>
                                 <td>
                                     <?php if ($row['status'] === 'sent'): ?>
                                         <span
@@ -364,10 +371,39 @@ class WP_Email_Connector_Settings
                                 <td><?php echo esc_html((string) $row['mailer']); ?></td>
                                 <td><?php echo esc_html((string) $row['error_message']); ?></td>
                             </tr>
+                            <tr id="<?php echo esc_attr($body_id); ?>" style="display: none;">
+                                <td colspan="7" style="background: #f6f7f7;">
+                                    <div style="margin: 8px 0 4px; font-weight: 600;"><?php esc_html_e('Vollstaendiger Mail Body', 'wordpress-email'); ?></div>
+                                    <pre style="white-space: pre-wrap; word-break: break-word; max-height: 360px; overflow: auto; margin: 0;"><?php echo esc_textarea((string) $row['message']); ?></pre>
+                                </td>
+                            </tr>
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </tbody>
             </table>
+
+            <script>
+                document.addEventListener('click', function (event) {
+                    var button = event.target.closest('.wp-email-show-body');
+                    if (!button) {
+                        return;
+                    }
+
+                    var targetId = button.getAttribute('data-target');
+                    if (!targetId) {
+                        return;
+                    }
+
+                    var bodyRow = document.getElementById(targetId);
+                    if (!bodyRow) {
+                        return;
+                    }
+
+                    var isOpen = bodyRow.style.display !== 'none';
+                    bodyRow.style.display = isOpen ? 'none' : 'table-row';
+                    button.textContent = isOpen ? '<?php echo esc_js(__('Body anzeigen', 'wordpress-email')); ?>' : '<?php echo esc_js(__('Body ausblenden', 'wordpress-email')); ?>';
+                });
+            </script>
 
             <?php if ($total_pages > 1): ?>
                 <div class="tablenav">
