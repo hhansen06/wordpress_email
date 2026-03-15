@@ -2,8 +2,8 @@
 /**
  * Plugin Name: WordPress Email Connector
  * Description: Konfigurierbarer E-Mail-Versand fuer WordPress mit SMTP-Option und Versand-Logging.
- * Version: 1.0.0
- * Author: SVHH
+ * Version: __BUILD_VERSION__
+ * Author: Henrik Hansen
  * Text Domain: wordpress-email
  */
 
@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('WP_EMAIL_CONNECTOR_VERSION', '1.0.0');
+define('WP_EMAIL_CONNECTOR_VERSION', '__BUILD_VERSION__');
 define('WP_EMAIL_CONNECTOR_FILE', __FILE__);
 define('WP_EMAIL_CONNECTOR_PATH', plugin_dir_path(__FILE__));
 define('WP_EMAIL_CONNECTOR_URL', plugin_dir_url(__FILE__));
