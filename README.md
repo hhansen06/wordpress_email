@@ -57,3 +57,8 @@ Beim Deinstallieren werden entfernt:
 
 - Plugin-Option `wp_email_connector_settings`
 - Log-Tabelle `wp_email_connector_logs`
+
+
+
+## license
+do what you want ;)
